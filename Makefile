@@ -1,0 +1,15 @@
+setup:
+	python3 -m venv ~/.ML_project
+
+install: 
+	pip install --upgrade pip &&\
+		pip install -r requirements.txt
+
+test:
+	python -m pytest --nbval 10681109_Cantore_Andrea.ipynb
+
+format: 
+	black *.py # cleans up the code
+
+
+all: install test 
