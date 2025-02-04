@@ -1,6 +1,7 @@
 pytest
 jupyter
 pytest-cov
+pytest-nbval
 pandas
 numpy
 matplotlib
