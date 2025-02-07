@@ -6,7 +6,7 @@ install:
 		pip install -r requirements.txt
 
 test:
-	python -m pytest --nbval ML_project/10681109_Cantore_Andrea-2.ipynb
+	python -m pytest --nbval ./10681109_Cantore_Andrea-2.ipynb
 
 format: 
 	black *.py # cleans up the code
