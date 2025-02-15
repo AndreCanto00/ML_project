@@ -1,6 +1,8 @@
 import pytest
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
 from src.visualization import (
     plot_categorical_by_target,
     plot_numerical_distributions,
