@@ -1,15 +1,22 @@
 setup:
-	python3 -m venv ~/.ML_project
+	python3 -m venv .venv
+	. .venv/bin/activate
 
-install: 
-	pip install --upgrade pip &&\
-		pip install -r requirements.txt
+install: setup
+	. .venv/bin/activate && \
+	pip install --upgrade pip && \
+	pip install -r requirements.txt
 
-test:
-	python -m pytest --nbval ./10681109_Cantore_Andrea-2.ipynb
+test: setup
+	. .venv/bin/activate && \
+	python -m pytest --nbval Tweets_to_Emotions.ipynb
 
-format: 
-	black *.py # cleans up the code
+format: setup
+	. .venv/bin/activate && \
+	black Tweets_to_Emotions.ipynb
 
+lint: setup
+	. .venv/bin/activate && \
+	pylint --disable=R,C,W1203 Tweets_to_Emotions.ipynb
 
-all: install test 
+all: install lint test
