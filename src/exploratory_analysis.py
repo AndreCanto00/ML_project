@@ -60,7 +60,6 @@ def split_features_by_type(data: pd.DataFrame,
     
     # Get numerical features
     numerical = data.drop(
-        [target_col] + 
         list(categorical.columns) + 
         numerical_exclude, 
         axis=1, 
