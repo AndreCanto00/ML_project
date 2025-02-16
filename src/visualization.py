@@ -93,13 +93,20 @@ def plot_numerical_by_target(data: pd.DataFrame,
     plt.show()
 
 def plot_feature_relationships(data: pd.DataFrame, 
+                             feature_columns: list = None,
                              target_col: str = 'failure') -> None:
     """
-    Create a pairplot of all features colored by target value.
+    Create a pairplot of selected features colored by target value.
     
     Args:
         data (pd.DataFrame): Input dataset with both features and target column
+        feature_columns (list, optional): List of feature columns to plot
         target_col (str): Name of the target column
     """
-    sns.pairplot(data, hue=target_col)
+    if feature_columns is not None:
+        plot_data = data[feature_columns + [target_col]]
+    else:
+        plot_data = data
+        
+    sns.pairplot(plot_data, hue=target_col)
     plt.show()

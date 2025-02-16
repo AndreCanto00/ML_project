@@ -38,12 +38,19 @@ def test_split_features_by_type():
         numerical_exclude=['num2']
     )
     
+    # Test categorical features
     assert 'cat1' in categorical.columns
     assert 'cat2' not in categorical.columns
+    assert 'failure' not in categorical.columns
+    
+    # Test numerical features
     assert 'num1' in numerical.columns
     assert 'num2' not in numerical.columns
-    assert 'failure' not in categorical.columns
     assert 'failure' not in numerical.columns
+    
+    # Test shapes
+    assert len(categorical.columns) == 1  # Only cat1
+    assert len(numerical.columns) == 1    # Only num1
 
 def test_analyze_feature_types():
     # Create sample data with different types

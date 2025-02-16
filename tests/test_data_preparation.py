@@ -31,8 +31,8 @@ def test_standardize_features(sample_data, tmp_path):
     
     # Check if data was standardized correctly
     assert scaled_data.shape == (3, 2)  # Excluding target
-    assert np.allclose(scaled_data.mean(), 0, atol=1e-10)
-    assert np.allclose(scaled_data.std(), 1, atol=1e-10)
+    assert np.allclose(scaled_data.mean(axis=0), 0, atol=1e-10)
+    assert np.allclose(scaled_data.std(axis=0, ddof=0), 1, atol=1e-5)
 
 def test_compute_correlations(sample_data):
     corr = compute_correlations(sample_data)

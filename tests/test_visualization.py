@@ -41,5 +41,5 @@ def test_plot_numerical_by_target(sample_data):
 def test_plot_feature_relationships(sample_data):
     # Test that function runs without errors
     columns = ['num1', 'num2']
-    plot_feature_relationships(sample_data, columns)
+    plot_feature_relationships(sample_data, feature_columns=columns)
     plt.close('all')

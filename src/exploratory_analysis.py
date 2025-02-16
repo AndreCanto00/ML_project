@@ -33,19 +33,17 @@ def analyze_target_distribution(data: pd.DataFrame, target_col: str = 'failure')
         'percentages': percentages
     }
 
-def split_features_by_type(data: pd.DataFrame, 
+def split_features_by_type(data: pd.DataFrame,
                           target_col: str = 'failure',
                           categorical_exclude: list = None,
                           numerical_exclude: list = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Split features into categorical and numerical DataFrames.
-    
     Args:
         data (pd.DataFrame): Input dataset
         target_col (str): Name of target column to exclude
         categorical_exclude (list): Additional categorical columns to exclude
         numerical_exclude (list): Additional numerical columns to exclude
-        
     Returns:
         Tuple[pd.DataFrame, pd.DataFrame]: Categorical and numerical features
     """
@@ -53,19 +51,19 @@ def split_features_by_type(data: pd.DataFrame,
         categorical_exclude = []
     if numerical_exclude is None:
         numerical_exclude = []
-        
+
+    # Create lists of columns to exclude
+    categorical_exclude = [target_col] + categorical_exclude
+    numerical_exclude = [target_col] + numerical_exclude
+
     # Get categorical features (integers in this case)
     categorical = data.select_dtypes(include=['int'])
-    categorical = categorical.drop([target_col] + categorical_exclude, axis=1, errors='ignore')
-    
-    # Get numerical features
-    numerical = data.drop(
-        list(categorical.columns) + 
-        numerical_exclude, 
-        axis=1, 
-        errors='ignore'
-    )
-    
+    categorical = categorical.drop(categorical_exclude, axis=1, errors='ignore')
+
+    # Get numerical features (excluding categorical columns and target)
+    numerical = data.select_dtypes(include=['float', 'float64'])
+    numerical = numerical.drop(numerical_exclude, axis=1, errors='ignore')
+
     return categorical, numerical
 
 def analyze_feature_types(data: pd.DataFrame) -> pd.Series:

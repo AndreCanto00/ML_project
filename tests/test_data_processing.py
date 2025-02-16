@@ -38,11 +38,18 @@ def test_analyze_missing_values():
 def test_clean_dataset():
     # Create sample data with a column full of missing values
     data = pd.DataFrame({
-        'A': [1, np.nan, 3],
-        'B': [4, 5, 6],
-        'C': [np.nan, np.nan, np.nan]
+        'A': [1, np.nan, 3],    # 33% missing
+        'B': [4, 5, 6],         # 0% missing
+        'C': [np.nan, np.nan, np.nan]  # 100% missing
     })
-    cleaned_data = clean_dataset(data)
     
+    # Test with default threshold (removes only completely empty columns)
+    cleaned_data = clean_dataset(data)
     assert 'C' not in cleaned_data.columns
     assert len(cleaned_data.columns) == 2
+    assert set(cleaned_data.columns) == {'A', 'B'}
+    
+    # Additional test with stricter threshold
+    cleaned_data_strict = clean_dataset(data, threshold=0.3)
+    assert len(cleaned_data_strict.columns) == 1
+    assert set(cleaned_data_strict.columns) == {'B'}

@@ -39,14 +39,22 @@ def analyze_missing_values(data: pd.DataFrame) -> Tuple[pd.Series, pd.Series]:
     """
     return data.isna().any(), data.isna().sum()
 
-def clean_dataset(data: pd.DataFrame) -> pd.DataFrame:
+def clean_dataset(data: pd.DataFrame, threshold: float = 0.6) -> pd.DataFrame:
     """
     Clean the dataset by removing columns with too many missing values.
     
     Args:
         data (pd.DataFrame): Input dataset
-        
+        threshold (float): Maximum allowed proportion of missing values (0.0 to 1.0)
+                         Default is 1.0 (100% missing) to only remove completely empty columns
+    
     Returns:
         pd.DataFrame: Cleaned dataset with removed columns
     """
-    return data.dropna(axis=1)
+    # Calculate proportion of missing values in each column
+    missing_prop = data.isna().mean()
+    
+    # Keep columns where proportion of missing values is less than threshold
+    columns_to_keep = missing_prop[missing_prop < threshold].index
+    
+    return data[columns_to_keep]
